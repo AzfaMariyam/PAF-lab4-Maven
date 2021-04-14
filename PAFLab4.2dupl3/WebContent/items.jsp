@@ -16,8 +16,9 @@
 		
 		session.setAttribute("statusMsg",stsMsg);
 	}
+
 	//Remove item------------------------------
-	if(request.getParameter("itemID") != null){
+/*	if(request.getParameter("itemID") != null){
 		
 		String  id = request.getParameter("itemID");
 		
@@ -38,51 +39,50 @@
 		session.setAttribute("price",price);
 		session.setAttribute("desc",desc);
 		
+	} */
+	
+	//Delete item
+	if (request.getParameter("itemID") != null)
+	{ 
+		Item itemObj = new Item(); 
+		 String stsMsg = itemObj.deleteItem(request.getParameter("itemID")); 
+		 session.setAttribute("statusMsg", stsMsg); 
 	}
+	
+	
+	
 %>
  
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Items Management</title>
-</head>
-<body>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Items Management</title>
+	</head>
 	
-	<h1>Items Management</h1>
-	<form method="post" action="items.jsp">
+	<body>
 	
-	Item code: <input name="itemCode" type="text" <%if(request.getParameter("btnUpdate") != null){%>
-		value='<%= session.getAttribute("code")  %>'
-	<% }%>><br>
+		<h1>Items Management</h1>
+		<form method="post" action="items.jsp">
+		
+			Item code: <input name="itemCode" type="text"><br> 
+			Item name: <input name="itemName" type="text"><br> 
+			Item price: <input name="itemPrice" type="text"><br> 
+			Item description: <input name="itemDesc" type="text"><br> 
+			
+			<input name="btnSubmit" type="submit" value="Save">
+		</form>
+		
+		<%
+		 out.print(session.getAttribute("statusMsg")); 
+		%>
+		<br>
+		
+		<%
+		 Item itemObj = new Item(); 
+		 out.print(itemObj.readItems()); 
+		%>
+		
 	
-	Item name: <input name="itemName" type="text" <%if(request.getParameter("btnUpdate") != null){%>
-		value="<%= session.getAttribute("name") %>"
-	<% }%>><br>
-	
-	Item price: <input name="itemPrice" type="text" <%if(request.getParameter("btnUpdate") != null){%>
-		value="<%= session.getAttribute("price") %>"
-	<% }%>><br>
-	
-	Item description: <input name="itemDesc" type="text" <%if(request.getParameter("btnUpdate") != null){%>
-		value="<%= session.getAttribute("desc") %>"
-	<% }%>><br>
-	
-	<input name="btnSubmit" type="submit" value="Save">
-	</form>
-	
-	<%
-		//out.print(item[0]);
-		out.print(session.getAttribute("statusMsg"));
-	
-	%>
-	<br>
-	<%
-	
-		Item itemObj = new Item();
-		out.print(itemObj.readItems());
-	
-	%>
-
-</body>
+	</body>
 </html>
